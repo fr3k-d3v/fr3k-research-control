@@ -12,6 +12,15 @@ class FR3KContextEngine(ContextCompressor):
                          protect_first_n=3, protect_last_n=20,
                          summary_target_ratio=0.2)
 
+    def update_model(self, *args, **kwargs):
+        # Never advertise more context than the local 65,536-token backend.
+        supplied = kwargs.get("context_length")
+        if supplied is None or supplied > 65536:
+            kwargs["context_length"] = 65536
+        result = super().update_model(*args, **kwargs)
+        self.threshold_percent = 0.5
+        return result
+
     @property
     def name(self):
         return "fr3k64k"
@@ -30,7 +39,8 @@ class FR3KContextEngine(ContextCompressor):
         limit = min(int(budget_tokens or 65536), 65536)
         if sum(len(str(m.get("content", ""))) for m in request_messages) < limit * 2:
             return request_messages
-        return [m for m in request_messages if not m.get("_fr3k_optional", False)]
+        return [{k: v for k, v in m.items() if k != "_fr3k_optional"}
+                for m in request_messages if not m.get("_fr3k_optional", False)]
 
 def register(ctx):
     ctx.register_context_engine(FR3KContextEngine())
