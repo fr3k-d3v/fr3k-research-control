@@ -1,0 +1,261 @@
+{
+  "schema": 1,
+  "generated_utc": 1794210824,
+  "mode": "metadata-only",
+  "source": "Omarchy research folders",
+  "count": 36,
+  "entries": [
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "BATCH-11-DEDUP-EVIDENCE-ADDENDUM.md",
+      "sha256": "8da3c79889f915eadc46f850aa5861e955094c4057e853652d901706e450afa0",
+      "bytes": 2411,
+      "modified_utc": 1794207481
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "COMMIT-AUDIT-2026-11-09.md",
+      "sha256": "e3aa859dc9f794f57bcf686c1f61c81ea4b7e0ac399c03ef01f87df188163b28",
+      "bytes": 1993,
+      "modified_utc": 1794206618
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "COMMIT-TRACING-ADDENDUM-2026-11-09.md",
+      "sha256": "e284dea41da7e5d2a807e8548a535630a48aede92ac1ed1f83e86803865fde19",
+      "bytes": 4151,
+      "modified_utc": 1794206821
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "FR3K-CROSS-RESEARCH-SYNTHESIS-2026-11-09.md",
+      "sha256": "9e55184d82bbfea55c498194f1e429d6816541ac5b7685fdd89d97f28cd2f832",
+      "bytes": 6684,
+      "modified_utc": 1794206165
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "IMPLEMENTATION-EVIDENCE-ADDENDUM-2026-11-09.md",
+      "sha256": "59c3bea965acccc6df2e7ed44dc93de9624484755877088874447ee3b2739934",
+      "bytes": 3344,
+      "modified_utc": 1794207546
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "POST-CODEX-FOUR-WAY-MATRIX.md",
+      "sha256": "ccc190decb01eba2579bae44860649b3d86779eb9cc2c90a1baf7a8e39597bc9",
+      "bytes": 1673,
+      "modified_utc": 1794206328
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "RESEARCH-EVIDENCE-FILTER.md",
+      "sha256": "5c7d0510aae2772cfbd15fe4e78792bf44528355850cb153ba670706077e9f5e",
+      "bytes": 1731,
+      "modified_utc": 1794206512
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-02.md",
+      "sha256": "cf72f5af225cc26e79b9a8cfd90f7b73331dbdccc0a5a53dfa18937b9e43ce50",
+      "bytes": 3624,
+      "modified_utc": 1794206011
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-03.md",
+      "sha256": "7e8d2482bf04268dfd5200997ff7ff3f13e07fa0f5de1c3cc32707e34f4b3489",
+      "bytes": 2596,
+      "modified_utc": 1794206066
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-04.md",
+      "sha256": "7fd642cb6af200c412db02d78ee63929bd7fb8ef503a43346bad9b44d8ec2bfb",
+      "bytes": 3120,
+      "modified_utc": 1794206183
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-05.md",
+      "sha256": "14583c5d2189e3e71d267045db7ce16f4a3bfdbd01f01d9176c06bfccc870960",
+      "bytes": 5997,
+      "modified_utc": 1794206454
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-06.md",
+      "sha256": "7cf80a80021b3ccda36d8a702927ac4613d4e13b79dc9e2cfa0334e8383da4cd",
+      "bytes": 2321,
+      "modified_utc": 1794206533
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-07.md",
+      "sha256": "2972d55c335dd49a5a8eee01c81b9d8ab3e1b238b2d83e077fb4141570644576",
+      "bytes": 1679,
+      "modified_utc": 1794206736
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-08.md",
+      "sha256": "0f4f3cdf7a8d71f5ea1291d173bf595a377fc6f436c986c10bb74219f7b9a394",
+      "bytes": 2093,
+      "modified_utc": 1794207109
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-09.md",
+      "sha256": "2436e90e13a9c7acf2f8344f7b932601ac8d1cddeea319b34c5dd84bdd0babc1",
+      "bytes": 2466,
+      "modified_utc": 1794207267
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-10.md",
+      "sha256": "927ae150710103e170d4199cb8184c4c835a62c0ac49b747a5cbba329944f9bb",
+      "bytes": 3294,
+      "modified_utc": 1794207320
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-11.md",
+      "sha256": "3f94226077877b13f0c331d669dffedc9073f085292418b107852cdd65d299a3",
+      "bytes": 1615,
+      "modified_utc": 1794207390
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-12.md",
+      "sha256": "5d62aa90da1c38954806d75634b54e2aa13bbd91c57b6d18c1c19ea646e524cb",
+      "bytes": 4036,
+      "modified_utc": 1794207567
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09-BATCH-13.md",
+      "sha256": "6b2038cba50db23bb64b4c75c18e5977716b3a04e9de88e1efaf1a44424abc74",
+      "bytes": 3464,
+      "modified_utc": 1794207666
+    },
+    {
+      "collection": "FR3K-HARDWARE-MAXIMIZATION-SCOUT",
+      "relative_path": "SCOUT-2026-11-09.md",
+      "sha256": "a84a59d9a828a6ae3d857c16cea5fa387105c7377744ea7df9d96328822b8e2c",
+      "bytes": 3332,
+      "modified_utc": 1794205947
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "AUDIT-HOTCACHE.md",
+      "sha256": "7a79168644ab6d43fd20aae7dcc72c725b1c05ac2113ba98bdda842263cb72a3",
+      "bytes": 3639,
+      "modified_utc": 1794209565
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "AUDIT-PAGING.md",
+      "sha256": "bfcc2ba8af572841ec3ec8a2027a5cbb5377116a6de585e27988b3e18db6ebee",
+      "bytes": 3338,
+      "modified_utc": 1794209572
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "AUDIT-PREFETCH.md",
+      "sha256": "299ccaed9f6466990ae9312d67bb7ad63212faf7a12c7b0226429274f287e2cd",
+      "bytes": 5569,
+      "modified_utc": 1794209585
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "AUDIT-TRACES.md",
+      "sha256": "04f77174cc924e191b76ff192e5eb8048289debf530dd6bb2a0961fb7a61a1b5",
+      "bytes": 2562,
+      "modified_utc": 1794209558
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "HANDOFF.md",
+      "sha256": "422f67ccaef9e7cf8a309bdcb3f24f9c30ee0f7538ac96bd0cf9c012827abc4b",
+      "bytes": 3556,
+      "modified_utc": 1794209622
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "OFFLINE-EXPERIMENT-SPEC.md",
+      "sha256": "23d107e4cd6e7f2bdebdcdb2640bdc64ad933356f61c16195d2530208170a3ec",
+      "bytes": 3051,
+      "modified_utc": 1794209593
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "STATE.md",
+      "sha256": "2fa1db75dd9137572d1b94d05a6701df66bf83ce474666004784165a923115bb",
+      "bytes": 3015,
+      "modified_utc": 1794209609
+    },
+    {
+      "collection": "FR3K-RESEARCH-STAGING-2026-11-09",
+      "relative_path": "candidates.json",
+      "sha256": "6ceea8c31a4545e3b7c627e40b9a33e6002ccb9a8aad49907c35c5508fe5ceb1",
+      "bytes": 6221,
+      "modified_utc": 1794209337
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "00-INDEX.md",
+      "sha256": "2bd30aaafdba0bc2f6bcc5f94c0f353d485c3fc498ba34a933bc20e5941aefee",
+      "bytes": 2425,
+      "modified_utc": 1794209557
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "01-GITHUB-FR3K-PROFILES-AND-REPOS.md",
+      "sha256": "edbbee07f7cc3c0a2ebac7a264e37144030db8af0aff3427bdf952ebe0e7e2b4",
+      "bytes": 6743,
+      "modified_utc": 1794208735
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "02-FR3KDEV-AND-BLACKWAV3-MEDIA.md",
+      "sha256": "5715269129e9ab33e50700cc30d85a84da24c407bf16f253b35fed3f847869f9",
+      "bytes": 3194,
+      "modified_utc": 1794208735
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "03-GITLAB-YOUTUBE-INSTAGRAM-X-SCAN.md",
+      "sha256": "f2adc3adcabb60d3a460ee8600dd2e18990f8513d73a10aacb78f699eaecc80c",
+      "bytes": 3366,
+      "modified_utc": 1794208735
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "04-RELEVANT-AGENT-LOCAL-AI-FINDINGS.md",
+      "sha256": "0be663e80c152d9cc2ffc7b0dbd8f7a671effd49aac61fc63055d9ef5628a2c3",
+      "bytes": 4243,
+      "modified_utc": 1794208736
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "06-SCAN-LEDGER-LOCAL-MOE-3060.md",
+      "sha256": "ac12905115d3125ceac1ff8cd463d70f33cae09aeba865aa77f8b5a0e9c49b87",
+      "bytes": 4077,
+      "modified_utc": 1794210755
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "07-LOCAL-MOE-3060-SCAN-28-PASSES-2026-11-09.md",
+      "sha256": "6c109b203f6e76f9298c58ab87b2174bc1b913c9ef84cf25ffd369570da02385",
+      "bytes": 40383,
+      "modified_utc": 1794210815
+    },
+    {
+      "collection": "FR3K-EXTERNAL-RESEARCH-2026-11-09",
+      "relative_path": "scan-state.json",
+      "sha256": "f31a2c9832f481079c0ddbe2d7297830d59de7ea4ddcd2fa266790fdfd7b03b3",
+      "bytes": 98394,
+      "modified_utc": 1794210821
+    }
+  ]
+}
