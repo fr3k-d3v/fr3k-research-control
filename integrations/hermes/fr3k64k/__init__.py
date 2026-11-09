@@ -7,6 +7,11 @@ sessions delegate to Hermes' existing compression implementation.
 from agent.context_compressor import ContextCompressor
 
 class FR3KContextEngine(ContextCompressor):
+    def __init__(self):
+        super().__init__(model="fr3kc0d3r", threshold_percent=0.5,
+                         protect_first_n=3, protect_last_n=20,
+                         summary_target_ratio=0.2)
+
     @property
     def name(self):
         return "fr3k64k"
