@@ -12,3 +12,6 @@ Connect machines. Measure reality. Delegate work. Verify results.
 - [Live-state handoff](docs/HANDOFF.md): observed vs pending and how to refresh evidence.
 
 This repository is the **new research coordination entrypoint**, not a replacement for a future canonical `fr3kd3v/fr3k` monorepo. Prefer merging this material into the monorepo once its authoritative remote is confirmed. Never mirror private fleet configuration, tokens, local paths, raw user data, or internal infrastructure.
+
+## Connection-layer architecture
+- [FR3K Fabric: research-backed connection and orchestration plan](architecture/FR3K-CONNECTION-LAYER-PLAN.md) — secure device identity, typed jobs, leases, evidence, hardware routing, alternatives, failure tests and milestone exit criteria.
