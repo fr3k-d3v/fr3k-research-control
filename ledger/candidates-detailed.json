@@ -1,0 +1,89 @@
+[
+  {
+    "id": "moe-anywhere-routing-traces",
+    "sources": [
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/SCOUT-2026-11-09-BATCH-12.md"
+    ],
+    "url": "https://huggingface.co/datasets/carlosfelipe/moe-anywhere-routing-traces",
+    "commit": "323f524347d1239825a03e267a2bcb1e026aa5d9",
+    "evidence_tier": "unverified-lead",
+    "local_verified": false,
+    "compatibility": "Model differs from FR3K (Sage-A1.5 Q4_K_M vs Qwen3-Coder-30B Q4_K_M). Hardware differs (RTX 5050 8GB vs RTX 3060 12GB). Traces useful for offline cache/prefetch simulation only; cannot demonstrate local coding speedups.",
+    "negative_results": "Dataset commit adds e3d-bench.tsv (+13 lines) and README (+2/-1). Verified metadata only, not runtime speedup. Other-model traces cannot demonstrate local coding speedups.",
+    "next_action": "Audit dataset card metadata, licence, schema columns, file sizes. Do not download large trace files. Update ledger record after audit.",
+    "status": "audit-next"
+  },
+  {
+    "id": "moe-hotcache",
+    "sources": [
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/IMPLEMENTATION-EVIDENCE-ADDENDUM-2026-11-09.md",
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/SCOUT-2026-11-09-BATCH-10.md"
+    ],
+    "url": "https://github.com/ap03906101/moe-hotcache",
+    "commit": "268a6128f4abe3daeed165fffb096e95a474f137",
+    "evidence_tier": "author-claim",
+    "local_verified": false,
+    "compatibility": "AMD ROCm (RDNA4) results, not NVIDIA RTX 3060. Qwen3.8 FN 131B-A6B Q3 and OLMoE, not Qwen3-Coder-30B. Ancestry unverified (claimed written from scratch).",
+    "negative_results": "Additional commits: 7e5ebf119c2ab98f0a7c9ceb03ac3ade046f61d9 (correctness fix for MUL_MAT_ID batch scheduling and real VRAM copies), beda4496714f03e74bded372402cba5224e29baf (external developer reports 17 -> 2.6 prefill tok/s with pinned host memory). Large-batch prefill routed through DMA path to CPU (author-reported limitation).",
+    "next_action": "Audit three commits (268a6128, 7e5ebf11, beda4496) for correctness, allocation ownership, synchronization, CPU fallback, CUDA vs ROCm deps. Ancestry verification required.",
+    "status": "audit-next"
+  },
+  {
+    "id": "weight-streaming",
+    "sources": [
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/IMPLEMENTATION-EVIDENCE-ADDENDUM-2026-11-09.md",
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/SCOUT-2026-11-09-BATCH-10.md",
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/SCOUT-2026-11-09-BATCH-11.md"
+    ],
+    "url": "https://github.com/i-mrDed/weight-streaming",
+    "commit": "6466811a086a740ed65d040d7962d3eb37359d73",
+    "evidence_tier": "author-claim",
+    "local_verified": false,
+    "compatibility": "Llama-3.2-1B (not Qwen3-Coder-30B). Instrumentation only, not acceleration proof. Integration assumes this project's own server wrapper.",
+    "negative_results": "Batch 11 lists earlier commit 8434ff9f3bbb22126f40a27d96920b48f1b794b7 (same repo, different SHA). 94 passed / 7 skipped tests. Cold paging 17.7 MB/token total, 2.1 MB/token disk (Llama-3.2-1B). Instrumentation, NOT proof of reduced I/O or higher throughput.",
+    "next_action": "Audit three files: tests/test_server_config_and_chat.py, weight_stream/backends/llama_cpp.py, weight_stream/server/model_manager.py. Record metric definitions, measurement source, sampling frequency, overhead.",
+    "status": "audit-next"
+  },
+  {
+    "id": "qwen35-expert-predictor",
+    "sources": [
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/SCOUT-2026-11-09-BATCH-13.md"
+    ],
+    "url": "https://huggingface.co/RASMUS/qwen3.5-35b-a3b-fp8-expert-predictor",
+    "commit": "UNKNOWN",
+    "evidence_tier": "author-claim",
+    "local_verified": false,
+    "compatibility": "Model-specific: Qwen3.5-35B-A3B FP8, not FR3K Qwen3-Coder-30B-A3B Q4_K_M. Weights/architecture differ. No 3060 result. Design-only audit.",
+    "negative_results": "34 small prediction heads (one per MoE layer L06-L39), predicting which of 256 experts used for token t+1. Author claims identical output in paired tests. No independent verification.",
+    "next_action": "Inspect model card and small inference/training source if available. Do not download weights. Record training-data requirements, cache semantics, architecture mismatch.",
+    "status": "audit-next"
+  },
+  {
+    "id": "mlx-nemo-offload",
+    "sources": [
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/SCOUT-2026-11-09-BATCH-13.md"
+    ],
+    "url": "https://huggingface.co/Jakevin/NVIDIA-Nemotron-3.5-Super-120B-A12B-q3-mlx",
+    "commit": "UNKNOWN",
+    "evidence_tier": "author-claim",
+    "local_verified": false,
+    "compatibility": "Apple MLX only. No NVIDIA CUDA portability claim. 120B model, not 30B. Keep Apple memory-accounting assumptions separate from Linux/CUDA.",
+    "negative_results": "Strong negative prefetch result: prefetch slower (1.97-2.07 tok/s) vs LRU (2.24-2.47 tok/s). 230-270 MB disk reads per generated token. Short-prompt prefill 1.3-1.7 tok/s vs 2K-doc ~32 tok/s. Naive prefetch can regress.",
+    "next_action": "Locate actual nemo_offload.py revision. Read RAM-budget/prefetch sections. Record cache semantics, memory-accounting assumptions, negative prefetch result with original workload.",
+    "status": "audit-next"
+  },
+  {
+    "id": "prefetch-steered-routing",
+    "sources": [
+      "/home/fr3k/Documents/FR3K-HARDWARE-MAXIMIZATION-SCOUT/SCOUT-2026-11-09-BATCH-13.md"
+    ],
+    "url": "https://huggingface.co/papers?q=prefetching",
+    "commit": "UNKNOWN",
+    "evidence_tier": "unverified-lead",
+    "local_verified": false,
+    "compatibility": "Full paper/implementation identity unresolved. Abstract only from paper index search. No implementation verified.",
+    "negative_results": "Paper-index abstract describes deterministic logical cache steering routing while separating physical prefetch transfer timing from model semantics. Timing-dependent cache-aware routing can alter model output (correctness caveat).",
+    "next_action": "Find full paper and implementation. Resolve reproducibility. Record exact commits if resolvable, otherwise UNKNOWN.",
+    "status": "audit-next"
+  }
+]
