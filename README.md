@@ -16,3 +16,4 @@ This repository is the **new research coordination entrypoint**, not a replaceme
 ## Connection-layer architecture
 - [FR3K Fabric: research-backed connection and orchestration plan](architecture/FR3K-CONNECTION-LAYER-PLAN.md) — secure device identity, typed jobs, leases, evidence, hardware routing, alternatives, failure tests and milestone exit criteria.
 - [Reuse-first GitHub landscape and build-vs-buy decisions](architecture/REUSE-FIRST-GITHUB-LANDSCAPE-2026-11-09.md) — upstream repository checks and specific components to reuse rather than rebuild.
+- [Prepared implementation jobs and duplicate-work reconciliation](architecture/IMPLEMENTATION-JOBS-2026-11-09.md) — ordered work, dependencies, existing Fleet MCP code and gates.
