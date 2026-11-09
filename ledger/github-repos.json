@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "generated_utc": "2026-11-09T07:55:27.061904+00:00",
+  "count": 21,
+  "repositories": [
+    {
+      "name": "fr3k-research-control",
+      "url": "https://github.com/fr3k-d3v/fr3k-research-control",
+      "pushed_at": "2026-11-09T07:53:53Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-fleet-mcp",
+      "url": "https://github.com/fr3k-d3v/fr3k-fleet-mcp",
+      "pushed_at": "2026-11-09T05:05:33Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-tv-control-log",
+      "url": "https://github.com/fr3k-d3v/fr3k-tv-control-log",
+      "pushed_at": "2026-11-08T08:32:41Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "android-overlay-pipeline",
+      "url": "https://github.com/fr3k-d3v/android-overlay-pipeline",
+      "pushed_at": "2026-11-07T16:28:22Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-xiaozhi-claw",
+      "url": "https://github.com/fr3k-d3v/fr3k-xiaozhi-claw",
+      "pushed_at": "2026-11-07T16:03:21Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-hud",
+      "url": "https://github.com/fr3k-d3v/fr3k-hud",
+      "pushed_at": "2026-11-07T15:20:08Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "divine-arsenal",
+      "url": "https://github.com/fr3k-d3v/divine-arsenal",
+      "pushed_at": "2026-11-07T04:54:41Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "xiaozhi-omega",
+      "url": "https://github.com/fr3k-d3v/xiaozhi-omega",
+      "pushed_at": "2026-11-01T05:32:42Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3kgames",
+      "url": "https://github.com/fr3k-d3v/fr3kgames",
+      "pushed_at": "2026-11-01T03:28:21Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-reachy-state",
+      "url": "https://github.com/fr3k-d3v/fr3k-reachy-state",
+      "pushed_at": "2026-10-29T06:49:10Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-infrastructure",
+      "url": "https://github.com/fr3k-d3v/fr3k-infrastructure",
+      "pushed_at": "2026-10-28T12:47:54Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-firmware-revamp",
+      "url": "https://github.com/fr3k-d3v/fr3k-firmware-revamp",
+      "pushed_at": "2026-10-27T01:32:52Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-reverse-engineering",
+      "url": "https://github.com/fr3k-d3v/fr3k-reverse-engineering",
+      "pushed_at": "2026-10-26T16:18:38Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-contabo-backup",
+      "url": "https://github.com/fr3k-d3v/fr3k-contabo-backup",
+      "pushed_at": "2026-10-26T12:11:51Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-android-avatar",
+      "url": "https://github.com/fr3k-d3v/fr3k-android-avatar",
+      "pushed_at": "2026-10-25T22:18:54Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "fr3k-ecosystem-checkpoint",
+      "url": "https://github.com/fr3k-d3v/fr3k-ecosystem-checkpoint",
+      "pushed_at": "2026-10-18T12:48:28Z",
+      "visibility": "private",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "NRSuite-Android",
+      "url": "https://github.com/fr3k-d3v/NRSuite-Android",
+      "pushed_at": "2026-09-21T11:11:12Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "NRSuite-firmware",
+      "url": "https://github.com/fr3k-d3v/NRSuite-firmware",
+      "pushed_at": "2026-09-21T10:57:16Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "relayguard",
+      "url": "https://github.com/fr3k-d3v/relayguard",
+      "pushed_at": "2026-09-13T20:06:19Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "relayguard-demo",
+      "url": "https://github.com/fr3k-d3v/relayguard-demo",
+      "pushed_at": "2026-09-13T19:09:42Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    },
+    {
+      "name": "0N3P0rK",
+      "url": "https://github.com/fr3k-d3v/0N3P0rK",
+      "pushed_at": "2026-09-11T20:18:41Z",
+      "visibility": "public",
+      "mirror_status": "NOT_VERIFIED"
+    }
+  ]
+}
