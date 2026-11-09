@@ -7,3 +7,6 @@ logs/
 evidence/raw/
 *.gguf
 *.sqlite
+
+__pycache__/
+*.pyc
