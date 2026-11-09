@@ -14,3 +14,33 @@ All entries below are **unverified leads**, not demonstrated Omarchy performance
 | RTX3060 configurations | https://github.com/Ajay9o9/runs-on-a-3060 | Configuration examples | Compatibility review |
 
 Source snapshots and negative findings must be updated by canonical URL + upstream commit, with immutable observations. Do not silently overwrite old entries.
+
+## Scan-pass additions — 2026-11-09 (360+ passes, local MoE on RTX 3060 12GB)
+
+| Candidate | Source | Evidence and compatibility | Next gate |
+|---|---|---|---|
+| RustingStrata v1.2.1 | https://github.com/RustingStudio/RustingStrata | 113 tok/s decode, 2016 tok/s prefill (4K), MTP 160 tok/s, 99.32% parity, Vulkan fallback, OpenAI+Anthropic API, multi-GPU, parallel (4 req=164 tok/s) | Source, license, CUDA/Vulkan audit, quality check |
+| Strata-HotRod | https://github.com/sangharshadhyeta/Strata-HotRod | 50-70 tok/s on Qwen3.8-Flash-Next 125B, 262K ctx, 30GB RAM, learned look-ahead (85-88%), stand-in experts, turn checkpoint | Reproduce on RTX 3060 + 30GB RAM |
+| moe-l2 0.14.1 | https://github.com/yalun753/moe-l2 | 25 tok/s @262K ctx, OpenAI-compatible, 9/9 PASS, ctx-force for KV bug, auto-context | Reproduce on RTX 3060, test Qwen3.6-35B-A3B |
+| FreeToken-Kai | https://github.com/yuuki-net/FreeToken-Kai | 38.5 tok/s on 2x 3060 (MTP), 21-23 tok/s 1x, 250k ctx, browser benchmark, --moe-bank-ram, --spec-mtp 4 | Reproduce on 1x and 2x RTX 3060 |
+| BigMoeOnEdge | https://github.com/Helldez/BigMoeOnEdge | Lossless flash streaming, --auto tuning, cross-platform, 15.5 tok/s on 3060 class for 125B | Reproduce on RTX 3060 12GB |
+| FlashMoE-Serve | https://github.com/abi2024/FlashMoE-Serve | +72% throughput (11.87→20.38 tok/s), Triton kernels, continuous batching, NF4 quant | Reproduce on RTX 3060, test Qwen models |
+| Strata (Niko1221) | https://github.com/Niko1221/strata | 25-38 tok/s, 125B on 12GB, one-click install, OpenAI+Anthropic, image input | Reproduce on RTX 3060 |
+| Strata (kstevica fork) | https://github.com/kstevica/strata | One-click install, 8GB+ GPU support, built with llama.cpp/ggml parts | Compatibility review |
+| cuda_inf | https://github.com/g023/cuda_inf | ~105 tok/s on LFM2.5-8B, self-contained CUDA, sm_75+ | Test on RTX 3060 |
+| cioinside/llama-cpp-optimizer | https://github.com/cioinside/llama-cpp-optimizer | 50+ benchmarks on 2x RTX 3060, documented anti-patterns, TurboQuant | Review anti-patterns, apply to tuning |
+| ildargiv/rtx3060-strata-tuning | https://github.com/ildargiv/rtx3060-strata-tuning | 44→61 tok/s on single 3060, measured tuning | Reproduce on RTX 3060 |
+| nabe2030/strata-rtx3060x2 | https://github.com/nabe2030/strata-rtx3060x2 | 51.2 tok/s on 2x 3060, 10/10 OpenCode tasks at 230K ctx | Reproduce on 2x RTX 3060 |
+| Betelgeuse | https://github.com/Betelgeuse-AI/Betelgeuse | Frontier MoE on 3060+16GB RAM+NVMe, experimental, partly broken | Correctness and crash audit |
+| tinygiant | https://github.com/jerryjokesalot/tinygiant | Prototype SSD expert streaming, Qwen3 30B A3B layout | Disk I/O and correctness instrumentation |
+| moe-hotcache | https://github.com/ap03906101/moe-hotcache | AMD/other-model results, not NVIDIA/Qwen3-Coder proof | Audit scheduling, DMA, CUDA portability |
+
+### Critical tuning rules (from 360+ scans)
+- Expert cliff: ncmoe 16 (32K) → 17 (64K) → 20 (128K) → 22 (258K)
+- q4_0 KV: 4.6x prefill speedup, KL 0.10 (nearly lossless for Qwen)
+- Negative optimizations under VRAM offload: fa on, large -b, MTP, threads 20 all HURT
+- MTP sweet spot: ncmoe 26 (not 32), 91% acceptance, 33-36 tok/s
+- Host RAM: 32GB min for 35B; 64GB+ for 80B+; 128GB for 177B
+- FreeToken-Kai: MTP helps on 2-card (18→38.5 tok/s) but hurts on 1-card
+- q4_0 KV decode is flat from 8k to 125k on sparse backend
+- Host load matters: 2.6-4.1 load → good; 21-28 load → 15-20% worse
