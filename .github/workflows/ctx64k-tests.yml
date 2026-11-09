@@ -1,0 +1,24 @@
+name: CTX-64K unit tests
+on:
+  push:
+    paths:
+      - "prototypes/ctx64k/**"
+      - "integrations/hermes/fr3k64k/**"
+      - ".github/workflows/ctx64k-tests.yml"
+  pull_request:
+    paths:
+      - "prototypes/ctx64k/**"
+      - "integrations/hermes/fr3k64k/**"
+      - ".github/workflows/ctx64k-tests.yml"
+permissions:
+  contents: read
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Unit suite
+        run: python -m unittest discover -s prototypes/ctx64k -p 'test_*.py' -v
