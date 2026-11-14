@@ -1,10 +1,8 @@
 # Runbook — safe preflight, install and operation
 
-**Current state:** Colibrì v2.1.0 is staged in an isolated evaluation directory; CPU and CUDA sm_86 engine builds pass. The model download is not approved and has not started.
+**Current state:** Colibrì v2.1.0 CPU and CUDA sm_86 engine builds pass. Huihui's abliterated Q2 model is selected. Download is blocked by a local filesystem write gate and target-host availability. No model weights are downloaded.
 
-## Phase 0 — read-only observation (completed)
-
-The following commands were used on Omarchy:
+## Phase 0 — read-only observation
 
 ~~~bash
 date -Is
@@ -17,94 +15,83 @@ nvidia-smi --query-gpu=name,memory.total,memory.free,driver_version,compute_cap 
 command -v nvcc && nvcc --version
 lsblk -o NAME,MODEL,SIZE,ROTA,TYPE,FSTYPE,MOUNTPOINTS
 df -hT
-~~~
-
-Colibrì hardware and catalogue probes:
-
-~~~bash
 python3 c/setup_hw.py --json
 python3 c/coli setup --list --json
 ~~~
 
-Do not run `coli setup --yes`, `hf download`, `coli import` or package installation during preflight.
+Do not run `coli setup --yes`, model download, `coli import` or package installation during preflight.
 
-## Phase 1 — isolated runtime (completed in part)
-
-Pinned runtime:
+## Phase 1 — isolated runtime
 
 - Source: https://github.com/JustVugg/colibri
 - Release: v2.1.0
 - Commit: `704a3f68184b78367a04cb5526e428dc2f90f05b`
 - Release archive SHA-256: `d54b4c57c12417fc9e784b649249ac1aa3480eec44ece2777d4cbc639a25e66a`
 
-Build CPU reference:
-
 ~~~bash
 cd c
 make -f Makefile.deepseek-v4 deepseek-v4
-~~~
-
-Build CUDA for RTX 3060:
-
-~~~bash
 CUDA_HOME=/opt/cuda make -f Makefile.deepseek-v4 deepseek-v4 CUDA=1 CUDA_ARCH=sm_86
 ~~~
 
-Both builds passed on the target. See BUILD-AND-SMOKE-TESTS.md.
+Both builds passed in private preflight. See BUILD-AND-SMOKE-TESTS.md.
 
-## Phase 2 — selected model download (WAIT FOR APPROVAL)
+## Phase 2 — selected abliterated model download
 
-Selected candidate: AtomicChat AD-IQ2_XS, four shards, 85.1 GB total listing.
+- Repository: https://huggingface.co/huihui-ai/Huihui-DeepSeek-V4-Flash-0731-abliterated-GGUF
+- Revision: `a8dfba9c1e43bdf324ee2c7787ed01c70975ffb4`
+- File: `DeepSeek-V4-Flash-Q2-0731.gguf`
+- Exact bytes: `86720111488`
+- SHA-256: `73d17d12b2988b31df519ae381096bcaa737361664d76ce2c88a9ed6b68ff756`
 
-Repository: https://huggingface.co/AtomicChat/DeepSeek-V4-Flash-0731-GGUF  
-Variant: `AD-IQ2_XS/`  
-Folder revision shown by Hugging Face: `8c7a581` (resolve the full revision before download).
+Before download:
 
-Before downloading:
-
-1. Recheck `df -B1` on the target volume.
-2. Confirm at least 90.2 GB free (85.1 GB artifact plus approximately 5.1 GB reserve) and preferably more.
-3. Confirm the destination path and that no other download is using the volume.
-4. Obtain explicit user approval for this exact 85.1 GB model.
-5. Pin the full model-repository revision and record all four expected files.
-
-Illustrative download using the Hugging Face CLI after it is available in an isolated environment:
+1. Complete Windows `chkdsk X: /scan` and, if needed, `chkdsk X: /f` on the correct data volume.
+2. Fully shut Windows down and return to the target Linux workstation.
+3. Confirm Fleet reachability and re-observe all attached storage.
+4. Verify the chosen filesystem is clean, mounted read-write and has at least 92,000,000,000 free bytes.
+5. Set local-only environment variables; do not commit their values:
 
 ~~~bash
-hf download AtomicChat/DeepSeek-V4-Flash-0731-GGUF \
-  --revision <PINNED_MODEL_REVISION> \
-  --include 'AD-IQ2_XS/*' \
-  --local-dir <APPROVED_MODEL_DIRECTORY>
+export FR3K_MODEL_MOUNT=/mnt/models
+export FR3K_MODEL_VOLUME_UUID='<local-only-filesystem-uuid>'
+export FR3K_MODEL_FSTYPE=ntfs3
 ~~~
 
-Do not start this command until approval is recorded. Use resumable downloads. After completion, record exact file sizes and SHA-256 hashes.
+6. Create the destination directory:
 
-## Phase 3 — import in place (after successful download)
+~~~bash
+mkdir -p "$FR3K_MODEL_MOUNT/FR3K-Models/DeepSeek-V4-Flash-0731-Abliterated-Q2"
+~~~
 
-The Colibrì importer supports `deepseek4` GGUF and defaults to link mode. Use explicit link mode to avoid an additional 85 GB copy:
+7. Run the guarded script:
+
+~~~bash
+bash research/colibri-deepseek-v4/scripts/download-huihui-abliterated-q2.sh --confirm-download "$FR3K_MODEL_MOUNT/FR3K-Models/DeepSeek-V4-Flash-0731-Abliterated-Q2"
+~~~
+
+Do not force-mount NTFS or write to a dirty volume.
+
+## Phase 3 — import in place
 
 ~~~bash
 coli import \
-  <APPROVED_MODEL_DIRECTORY>/AD-IQ2_XS/DeepSeek-V4-Flash-0731-AD-IQ2_XS-00001-of-00004.gguf \
+  "$FR3K_MODEL_MOUNT/FR3K-Models/DeepSeek-V4-Flash-0731-Abliterated-Q2/DeepSeek-V4-Flash-Q2-0731.gguf" \
   --mode link \
-  --out <APPROVED_MODEL_DIRECTORY>/DeepSeek-V4-Flash-0731-AD-IQ2_XS.colibri
+  --out "$FR3K_MODEL_MOUNT/FR3K-Models/DeepSeek-V4-Flash-0731-Abliterated-Q2/DeepSeek-V4-Flash-0731-Abliterated-Q2.colibri"
+
+coli plan --model "$FR3K_MODEL_MOUNT/FR3K-Models/DeepSeek-V4-Flash-0731-Abliterated-Q2/DeepSeek-V4-Flash-0731-Abliterated-Q2.colibri"
+coli doctor --model "$FR3K_MODEL_MOUNT/FR3K-Models/DeepSeek-V4-Flash-0731-Abliterated-Q2/DeepSeek-V4-Flash-0731-Abliterated-Q2.colibri"
 ~~~
 
-Then run:
-
-~~~bash
-coli plan --model <APPROVED_MODEL_DIRECTORY>/DeepSeek-V4-Flash-0731-AD-IQ2_XS.colibri
-coli doctor --model <APPROVED_MODEL_DIRECTORY>/DeepSeek-V4-Flash-0731-AD-IQ2_XS.colibri
-~~~
-
-Do not start inference unless the planner reports a safe memory/disk plan.
+The exact artifact has not been imported; compatibility remains UNKNOWN until tested. Do not start inference unless planner and doctor report a safe memory/disk plan.
 
 ## Phase 4 — correctness before speed
 
 - Run a short CPU-canonical prompt with a low output limit.
-- Capture output, token IDs where available, stop reason, logs and resource telemetry.
+- Capture output, stop reason, logs and resource telemetry.
 - Repeat the same prompt on CUDA sm_86.
-- Test Vulkan separately; do not conflate generic device initialization with DeepSeek V4 inference.
+- Test Vulkan separately.
 - Only after correctness passes, begin context and throughput sweeps.
 
 ## Phase 5 — local API
@@ -114,31 +101,11 @@ Use loopback only and a locally generated API key:
 ~~~bash
 COLI_API_KEY='<local-secret-from-secret-store>' \
   coli serve --host 127.0.0.1 --port 8000 \
-  --model <APPROVED_MODEL_DIRECTORY>/DeepSeek-V4-Flash-0731-AD-IQ2_XS.colibri
+  --model "$FR3K_MODEL_MOUNT/FR3K-Models/DeepSeek-V4-Flash-0731-Abliterated-Q2/DeepSeek-V4-Flash-0731-Abliterated-Q2.colibri"
 ~~~
 
-The exact command and model ID must be checked against the installed v2.1.0 launcher. Do not place tokens in shell history, logs or Git. Do not expose the endpoint to LAN, Tailscale or public internet before a separate threat review.
-
-## Phase 6 — stop and rollback
-
-- Stop only the Colibrì evaluation process.
-- Verify it has exited and GPU memory has been released.
-- Restore FR3K's provider route to the accepted llama.cpp endpoint.
-- Do not delete the model or logs until evidence is archived and cleanup is approved.
+Do not place tokens in shell history, logs or Git. Do not expose the endpoint to LAN, tailnet or public internet before a separate threat review.
 
 ## Local-only evidence
 
-Raw logs, model files, `.coli_usage`, tokens, private paths and full hardware identifiers stay local. Publish sanitised summaries, artifact hashes and reproducible commands only.
-
-
-## Pinned, resumable download route
-
-The Omarchy workstation does not currently have the Hugging Face CLI or Python pip installed. Do not install packages just to download this model. Use the prepared curl-based script instead:
-
-~~~bash
-bash scripts/download-ad-iq2-xs.sh --confirm-download <APPROVED_MODEL_DIRECTORY>
-~~~
-
-The script is intentionally not run as part of preflight. It requires the explicit `--confirm-download` argument, pins model revision `17eb08debccb00a8d4dba11642ed1997f85c9d1c`, checks the remaining bytes plus a 5.1 GB reserve, downloads sequentially with resume support, verifies exact byte counts, and writes a local SHA-256SUMS file. It does not import or launch the model.
-
-See [DOWNLOAD-MANIFEST.md](DOWNLOAD-MANIFEST.md) for the exact 85,141,812,960-byte four-shard manifest and upstream HEAD metadata.
+Raw logs, model files, tokens, private paths, filesystem identifiers, volume labels and machine identifiers stay local. Publish only sanitised measurements, artifact hashes and reproducible commands.
