@@ -44,3 +44,15 @@ Source snapshots and negative findings must be updated by canonical URL + upstre
 - FreeToken-Kai: MTP helps on 2-card (18→38.5 tok/s) but hurts on 1-card
 - q4_0 KV decode is flat from 8k to 125k on sparse backend
 - Host load matters: 2.6-4.1 load → good; 21-28 load → 15-20% worse
+
+
+## Colibrì + DeepSeek V4 Flash evaluation — 2026-11-14
+
+| Candidate | Source | Evidence and compatibility | Next gate |
+|---|---|---|---|
+| Colibrì inference runtime | https://github.com/JustVugg/colibri | Native C runtime; DeepSeek V4 Flash engine; official safetensors and GGUF support; optional CUDA and Vulkan paths; OpenAI/Anthropic API. Upstream evidence reviewed, no local install. | Recheck pinned source and run read-only Omarchy hardware/model-fit preflight |
+| DeepSeek V4 Flash 0731 full checkpoint | https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731 | Official 284B checkpoint, ~167 GB, MIT; Colibrì catalogue lists 16 GB minimum / 32 GB recommended RAM. Omarchy fit UNKNOWN. | Confirm free RAM, NVMe capacity, CUDA/Vulkan and planner status before download |
+| DeepSeek V4 Flash 0731 full-model GGUF UD-IQ2_XXS | https://huggingface.co/unsloth/DeepSeek-V4-Flash-0731-GGUF | Full 284B architecture, very low-bit quant; Colibrì reports ~85 GB and upstream RTX PRO 4000/62 GB RAM measurements. Hugging Face lists 90.9 GB; reconcile exact file manifest. | Confirm disk budget; download only after approval; test quant quality and Vulkan/CUDA |
+| DeepSeek V4 Flash REAP 150B | https://huggingface.co/puwaer/DeepSeek-V4-Flash-0731-reap-150b | MIT; 132 routed experts rather than 256; ~85 GB; separate pruned model, not full V4 Flash. | Fallback only if full-model routes are blocked or unsuitable |
+
+All performance figures above are upstream claims, not Omarchy results. See [the dedicated evaluation plan](../research/colibri-deepseek-v4/README.md).
