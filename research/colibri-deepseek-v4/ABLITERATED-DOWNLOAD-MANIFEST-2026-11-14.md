@@ -32,3 +32,10 @@ Configure the local mountpoint, filesystem type and UUID through environment var
 ## Download state
 
 **NOT DOWNLOADED.** Local filesystem repair and target-host availability remain required. Do not force-mount NTFS or write to a dirty filesystem.
+
+
+## Guarded downloader verification
+
+- Script SHA-256: `f764f8eaa2b099555186701c993d555983a10f0cc025c5d7d632dd4e338b6d13`
+- Validation: `bash -n` PASS on a separate Linux host.
+- Execution: NOT RUN; no model data downloaded.
