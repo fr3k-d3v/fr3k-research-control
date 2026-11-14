@@ -2,68 +2,62 @@
 
 **Research ID:** FR3K-LLM-COLIBRI-DSV4-001  
 **Opened:** 2026-11-14  
-**Status:** RESEARCH PLAN RECORDED · PREFLIGHT NOT RUN · NO MODEL DOWNLOADED · NOT ACCEPTED  
-**Primary target:** official DeepSeek V4 Flash 0731 (284B total parameters)  
-**Runtime candidate:** [JustVugg/colibri](https://github.com/JustVugg/colibri)
+**Status:** PREFLIGHT COMPLETE · ENGINE BUILDS PASS · MODEL DOWNLOAD NOT APPROVED · NO MODEL INFERENCE  
+**Primary target:** DeepSeek V4 Flash 0731 (284B total parameters)  
+**Runtime:** [JustVugg/colibri](https://github.com/JustVugg/colibri)
 
 > Connect machines. Measure reality. Delegate work. Verify results.
 
-## Executive decision
+## Current decision
 
-Evaluate Colibrì as an optional FR3K local-inference provider, with **DeepSeek V4 Flash 0731 as the preferred model family**. Do not substitute DeepSeek V4.1 Flash, and do not silently replace the full 284B model with the expert-pruned REAP 150B variant.
+The best current full-model candidate for the Omarchy workstation is **AtomicChat AD-IQ2_XS GGUF**, an 85.1 GB four-shard quant of the full 284B DeepSeek V4 Flash architecture. The model card reports 79.24% next-token top-1 agreement and mean KLD 0.3947 against its AD-BF16 reference on the publisher's own evaluation harness. These are publisher measurements, not FR3K results.
 
-The most practical first attempt may be the full 284B architecture in the **UD-IQ2_XXS GGUF** quant (approximately 85 GiB / 90.9 decimal GB in upstream listings), because it reduces disk demand while retaining the full model's expert set. The preferred fidelity reference remains the official safetensors checkpoint (approximately 167 GB). The REAP 150B checkpoint is a fallback only if the full model cannot be run usefully on the available machine.
+The current model volume has 93.88 GB free, leaving approximately 8.8 GB after the listed model files. This is a **tight nominal fit**, not yet a verified download budget. Colibrì's importer defaults to `--mode link`, so it can read the GGUF in place without making a second 85 GB copy. Recheck exact free bytes immediately before download.
 
-The known Omarchy target is an RTX 3060 12 GB and 32 GB system RAM. This is **plausible but not yet verified**. Colibrì's own catalogue lists 16 GB minimum / 32 GB recommended RAM for full DeepSeek V4 Flash and 12 GB VRAM as a tight configuration for the full CUDA prefill path. Actual free RAM, GPU headroom, CUDA toolkit, Vulkan driver, NVMe capacity and random-read performance are UNKNOWN until observed on the machine.
+The official 166.9 GB checkpoint is currently blocked: Colibrì's catalogue says it needs 172 GB free, while the target volume has 93.88 GB. The Unsloth UD-IQ2_XXS GGUF is 90.9 GB and also leaves insufficient operational headroom. REAP 150B is a separate expert-pruned fallback, not the full model.
 
 ## Start here
 
 1. [Implementation plan](IMPLEMENTATION-PLAN.md) — phases, dependencies and exit gates.
-2. [Model and hardware fit](MODEL-AND-HARDWARE-FIT.md) — full model, GGUF and REAP variants; 3060 compatibility.
-3. [Benchmark and acceptance protocol](BENCHMARK-AND-ACCEPTANCE.md) — reproducible measurements and correctness gates.
-4. [FR3K integration architecture](FR3K-INTEGRATION.md) — provider boundary, tool authority and failure handling.
-5. [Runbook](RUNBOOK.md) — safe preflight and later installation procedure.
-6. [Execution tasks](TASKS.md) — ordered work queue.
-7. [Evidence register](EVIDENCE.md) — source claims versus local observations.
-8. [Decision log](DECISIONS.md) — explicit choices and unresolved questions.
+2. [Model and hardware fit](MODEL-AND-HARDWARE-FIT.md) — actual Omarchy inventory and candidate fit.
+3. [Quantization comparison](MODEL-QUANTIZATION-COMPARISON.md) — full-model quant choices and publisher-reported quality.
+4. [Local preflight report](LOCAL-PREFLIGHT-2026-11-14.md) — observed hardware, storage and blockers.
+5. [Build and smoke tests](BUILD-AND-SMOKE-TESTS.md) — source pin, build commands, checksums and test outcomes.
+6. [Benchmark and acceptance](BENCHMARK-AND-ACCEPTANCE.md) — correctness, speed and acceptance.
+7. [FR3K integration](FR3K-INTEGRATION.md) — provider boundary, tool authority and failure handling.
+8. [Runbook](RUNBOOK.md) — safe preflight and later installation procedure.
+9. [Execution tasks](TASKS.md) — ordered work queue and current states.
+10. [Evidence register](EVIDENCE.md) — source claims versus local observations.
+11. [Decision log](DECISIONS.md) — explicit choices and unresolved questions.
+
+## Hardware and runtime progress
+
+- Omarchy: Intel i3-12100 (4C/8T), 32 GB RAM, RTX 3060 12 GB, driver 615.78.08, CUDA toolkit 13.4, compute capability 8.6.
+- Colibrì v2.1.0 source commit: `704a3f68184b78367a04cb5526e428dc2f90f05b`.
+- CPU DeepSeek V4 engine build: PASS.
+- CUDA sm_86 DeepSeek V4 engine build: PASS.
+- CUDA runtime vector-add smoke test: PASS on RTX 3060.
+- Generic Colibrì Vulkan device initialization: PASS on RTX 3060; this is not yet a DeepSeek V4 model inference test.
+- DeepSeek V4 expert-store registry unit test: PASS.
+- No model weights downloaded; no actual DeepSeek inference performed.
+- Existing llama.cpp + Qwen baseline remains untouched.
 
 ## Candidate hierarchy
 
-| Priority | Candidate | What it is | Decision |
+| Priority | Candidate | What it is | Current decision |
 |---|---|---|---|
-| P0 — preferred | Official deepseek-ai/DeepSeek-V4-Flash-0731 | Full 284B checkpoint; FP4 routed experts, FP8 dense; ~167 GB | Test if disk and RAM preflight pass |
-| P0 — practical full-model route | Unsloth UD-IQ2_XXS GGUF | Full 284B architecture, quantized weights; ~85 GiB / ~90.9 GB listing | First lower-disk option; measure quality and speed |
-| P1 — fallback | puwaer/DeepSeek-V4-Flash-0731-reap-150b | Expert-pruned 150B variant; 132 rather than 256 routed experts; ~85 GB | Only if full model is blocked or too slow |
-| Excluded from this target | DeepSeek V4.1 Flash | Separate 552B / ~510 GB model and engine path | Do not confuse with V4 Flash |
-
-## Current evidence state
-
-- **VERIFIED FACT — upstream source:** Colibrì main was observed at commit 0a5504a1dc64f86fcd0fe7db298b0448c730e7e6 on 2026-11-14; the dev branch was observed at fd7ed68afa1f88706eae08ef172a5bc02c42bd77. The latest published release observed was v2.1.0.
-- **VERIFIED FACT — upstream documentation:** Colibrì documents a native DeepSeek V4 engine, official safetensors loading without conversion, optional CUDA acceleration, GGUF import, a Vulkan expert tier, and OpenAI/Anthropic tool-call translation.
-- **CLAIM — upstream benchmark:** the 85 GiB-class full-model GGUF UD-IQ2_XXS was measured on an RTX PRO 4000 24 GB / 62 GB RAM system at approximately 6.18–6.25 decode tok/s and 19.7–20.4 prompt tok/s after the documented tier improvements. This is not an Omarchy result.
-- **OBSERVATION:** the known Omarchy target inventory is RTX 3060 12 GB / 32 GB RAM. It must be re-observed before any benchmark.
-- **UNKNOWN:** exact CPU, free RAM, free NVMe capacity, NVMe random-read bandwidth, CUDA toolkit/driver compatibility, Vulkan device and current GPU contention.
-- **NOT DONE:** no Colibrì installation, model download, service change, GPU tuning or local benchmark has been performed by this research entry.
+| P0 — preferred full-model test | AtomicChat AD-IQ2_XS GGUF | Full 284B architecture; 85.1 GB; 4 shards; publisher top-1 79.24% | Nominally fits with ~8.8 GB left; recheck and obtain download approval |
+| P1 — smaller full-model quant | AtomicChat AD-IQ2_XXS GGUF | Full 284B architecture; 78.5 GB; publisher top-1 77.46% | More disk headroom, lower reported fidelity |
+| P2 — alternate publisher | Unsloth UD-IQ1_S GGUF | Full 284B architecture; 82.5 GB; publisher comparison table top-1 75.16% | Lower reported fidelity than AtomicChat AD-IQ2_XS |
+| P3 — fallback | DeepSeek V4 Flash REAP 150B | 150B expert-pruned; 132 rather than 256 routed experts | Separate model; use only if full-model options fail |
+| Fidelity reference | Official DeepSeek V4 Flash 0731 | Full 284B safetensors; 166.9 GB | Blocked by current disk capacity |
 
 ## Non-negotiable operating rules
 
-- Preserve the current llama.cpp + Qwen3-Coder baseline; do not replace it during evaluation.
-- Preflight before download. Show model size, target path, available capacity and hardware fit before authorising a large download.
-- No system package installation or model download without explicit approval.
-- Start with stock defaults and CPU-canonical correctness. Tune only one variable at a time.
+- Preserve the current llama.cpp + Qwen baseline; do not replace it during evaluation.
+- No large model download until the selected artifact and exact disk budget are rechecked and approved.
+- Start with CPU-canonical correctness. Tune one variable at a time.
 - Keep the server bound to loopback with API authentication. Do not expose an unauthenticated inference endpoint to the LAN or tailnet.
 - FR3K remains the sole authority for tool execution, job state, physical actions and approvals.
 - A running server is not acceptance. A benchmark number without correctness evidence is not an accepted result.
 - Store raw logs locally; publish only sanitised measurements. Never commit tokens, private paths, prompts containing personal data, machine identifiers or private infrastructure details.
-
-## Primary upstream references
-
-- [Colibrì repository](https://github.com/JustVugg/colibri)
-- [Pinned Colibrì main snapshot](https://github.com/JustVugg/colibri/tree/0a5504a1dc64f86fcd0fe7db298b0448c730e7e6)
-- [DeepSeek V4 engine guide](https://github.com/JustVugg/colibri/blob/0a5504a1dc64f86fcd0fe7db298b0448c730e7e6/docs/deepseek-v4.md)
-- [Colibrì Vulkan guide](https://github.com/JustVugg/colibri/blob/0a5504a1dc64f86fcd0fe7db298b0448c730e7e6/docs/vulkan.md)
-- [Colibrì GGUF guide](https://github.com/JustVugg/colibri/blob/0a5504a1dc64f86fcd0fe7db298b0448c730e7e6/docs/gguf.md)
-- [Colibrì API guide](https://github.com/JustVugg/colibri/blob/0a5504a1dc64f86fcd0fe7db298b0448c730e7e6/docs/api.md)
-- [Official DeepSeek V4 Flash 0731 checkpoint](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-0731)
-- [Unsloth DeepSeek V4 Flash GGUF variants](https://huggingface.co/unsloth/DeepSeek-V4-Flash-0731-GGUF)
-- [REAP 150B fallback checkpoint](https://huggingface.co/puwaer/DeepSeek-V4-Flash-0731-reap-150b)

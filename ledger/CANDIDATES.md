@@ -56,3 +56,15 @@ Source snapshots and negative findings must be updated by canonical URL + upstre
 | DeepSeek V4 Flash REAP 150B | https://huggingface.co/puwaer/DeepSeek-V4-Flash-0731-reap-150b | MIT; 132 routed experts rather than 256; ~85 GB; separate pruned model, not full V4 Flash. | Fallback only if full-model routes are blocked or unsuitable |
 
 All performance figures above are upstream claims, not Omarchy results. See [the dedicated evaluation plan](../research/colibri-deepseek-v4/README.md).
+
+## Colibrì / DeepSeek V4 Flash live preflight update — 2026-11-14
+
+| Candidate | Source | Evidence and compatibility | Next gate |
+|---|---|---|---|
+| Colibrì v2.1.0 on Omarchy | https://github.com/JustVugg/colibri/releases/tag/v2.1.0 | Source pinned at 704a3f68184b78367a04cb5526e428dc2f90f05b; CPU and CUDA sm_86 engine builds pass; CUDA runtime smoke passes; generic Vulkan device init passes. No model weights downloaded. | Import and run a real DeepSeek V4 artifact after approval |
+| AtomicChat AD-IQ2_XS | https://huggingface.co/AtomicChat/DeepSeek-V4-Flash-0731-GGUF/tree/main/AD-IQ2_XS | Full 284B DeepSeek V4 Flash architecture; 85.1 GB, four shards; publisher reports 79.240% top-1 and KLD 0.3947 on its own harness; MIT. Current volume has 93.88 GB free, leaving ~8.8 GB. | Preferred full-model candidate; final disk recheck and explicit 85.1 GB download approval |
+| AtomicChat AD-IQ2_XXS | https://huggingface.co/AtomicChat/DeepSeek-V4-Flash-0731-GGUF/tree/main/AD-IQ2_XXS | Full 284B architecture; 78.5 GB; publisher reports 77.459% top-1 and KLD 0.4544. | Lower-quality, more-headroom alternative |
+| Unsloth UD-IQ2_XXS | https://huggingface.co/unsloth/DeepSeek-V4-Flash-0731-GGUF | Full 284B architecture; 90.9 GB listing; insufficient disk reserve on current volume. | Blocked unless more storage becomes available |
+| REAP 150B | https://huggingface.co/puwaer/DeepSeek-V4-Flash-0731-reap-150b | Catalogue status good at 84.7 GB, but only 150B and 132 routed experts; not the full model. | Fallback only |
+
+AtomicChat quality metrics are publisher claims, not FR3K benchmarks. See [quantization comparison](../research/colibri-deepseek-v4/MODEL-QUANTIZATION-COMPARISON.md), [local preflight](../research/colibri-deepseek-v4/LOCAL-PREFLIGHT-2026-11-14.md), and [build evidence](../research/colibri-deepseek-v4/BUILD-AND-SMOKE-TESTS.md).
