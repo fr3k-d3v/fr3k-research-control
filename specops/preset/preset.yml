@@ -1,0 +1,20 @@
+schema_version: "1.0"
+preset:
+  id: "fr3k-specops"
+  name: "FR3K SpecOps"
+  version: "0.1.0"
+  description: "Evidence-first traceability and fail-closed acceptance criteria"
+  author: "FR3K"
+  repository: "https://github.com/fr3k-d3v/fr3k-research-control"
+requires:
+  speckit_version: ">=1.4.5"
+provides:
+  templates:
+    - type: "template"
+      name: "spec-template"
+      file: "templates/evidence-addendum.md"
+      description: "FR3K acceptance traceability"
+      strategy: "append"
+tags:
+  - "traceability"
+  - "verification"
