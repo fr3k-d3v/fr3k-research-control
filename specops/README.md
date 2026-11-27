@@ -8,6 +8,7 @@ python3 -I -B specops/contract.py
 python3 -I -B specops/fleet_observe.py
 python3 -I -B specops/converge.py
 python3 -I -B specops/fleet_transport.py
+python3 -I -B specops/journal.py
 ```
 Pinned Spec Kit 1.4.5 was installed into a restricted disposable directory and tested offline. Native integration assets were registered for Codex and OpenCode, not installed over existing user configuration. Install only in a new scratch project with the approved pinned dependency set. See the [master plan](../architecture/FR3K-SPECOPS-MASTER-PLAN-2026-11-27.md) for audit gaps.
 
@@ -32,3 +33,8 @@ The prototype accepts JSON MCP replies and rejects other reply formats, redirect
 
 ## Authority and release
 The existing Fleet orchestrator owns dispatch, approval, leases, fencing, dependencies, cancellation, immutable receipts and release authorization. Never infer permission from this repository. Any future submission adapter must be reviewed against actual server-side authority contracts, and cannot bypass them.
+
+## Persistent evidence and CI
+The local SQLite journal stores sanitized receipt projections, with unique attempt IDs, replay detection, a hash chain and update/delete guards. It is an evidence index, never a second job queue. Do not append transient states as final attempt records; reconcile again until a terminal result is available. Keep raw evidence separately. A trusted external checkpoint and signature are still required to detect replacement of the entire journal.
+
+[Cross-version offline checks](https://github.com/fr3k-d3v/fr3k-research-control/actions/workflows/specops-checks.yml) run the five suites on Python 3.11, 3.12 and 3.14 with pinned action revisions and read-only repository permissions. Initial run passed all three jobs. No production credentials are used by this workflow.
