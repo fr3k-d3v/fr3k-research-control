@@ -118,3 +118,10 @@ Do not install untrusted code on production. Clone pinned commits into disposabl
 - [ ] Install hashed wheels in isolated workspace (Fleet package-change approval required; request pending, no install performed). After operator approval: verify package/version/provenance, run CLI in offline sandbox, initialize scratch project and test integrations without overwriting existing work.
 - [ ] Complete security scan, source audit, authenticated Fleet adapter and all live/physical pilot gates. Do not tick top-level gates until acceptance evidence is linked.
 **Decision:** Keep acquisition, prototype and actual deployment separate. No package installed globally, no production changes, no physical verification. Pending approval details are provided privately to the operator rather than in this public plan.
+
+## Execution record — 2026-11-27, pass 4
+- [x] Approved isolated installation: 42 hash-locked wheels, terminal exit 0. Independent CLI help test confirmed Specify 1.4.5.
+- [x] Offline scratch initialization succeeded for Codex and OpenCode; bundled bug and assess extensions installed in Codex scratch project.
+- [x] Native preset committed in `specops/preset/`; exact GitHub readback tested with both integrations. Both composed templates preserved core content and appended FR3K evidence gates. Artifact registration verified, terminal exit 0.
+- [x] Corrected initial test assertion: preset resolve reports composition paths, while resolve_content returns the composed text.
+- [ ] Full package provenance and dependency security reviews, preset conflict/removal tests, actual agent execution, Fleet integration and physical acceptance remain open. No production deployment or global installation. No new licence declared pending owner decision.
