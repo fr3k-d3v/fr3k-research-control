@@ -1,0 +1,15 @@
+schema_version: "1.0"
+extension:
+  id: fr3k-observe
+  name: FR3K Fleet Observation
+  version: 0.1.0
+  description: Read-only Fleet execution evidence reconciliation
+  author: FR3K
+  repository: https://github.com/fr3k-d3v/fr3k-research-control
+requires:
+  speckit_version: ">=1.4.5"
+provides:
+  commands:
+    - name: speckit.fr3k-observe.receipt
+      file: commands/receipt.md
+      description: Reconcile a supplied Fleet job ID against actual read-only execution receipts
