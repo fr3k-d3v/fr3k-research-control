@@ -72,3 +72,38 @@ GitHub repository searches: `spec-driven development stars:0 fork:false`; `spec-
 
 ## Compilation protocol / next executable batch
 Do not install untrusted code on production. Clone pinned commits into disposable restricted workspaces only after review; record URL, revision, license file hash, dependency inventory, commands, tests, risk, applicable files, integration decision and evidence. Prefer clean-room patterns or upstream dependency over copying. No secrets in environment/logs. Keep source and build artifacts separate. First batch: R01, R03–R07, R12–R14; S02/S03/S04 parallel read-only; S05 after observations. Build the smallest preset plus test fixtures, then adapter, then pilot. Actual compilation/builds and device deployments have NOT started. No new runtime or repository ownership migration approved by this document.
+
+## Execution record — 2026-11-27, pass 2
+**VERIFIED FACT:** Read-only Fleet preflight exited 0 on an authorized Linux worker. Git, Python, uv, Docker, Codex and OpenCode are available; Specify was not found on PATH. This does not establish that every agent can authenticate or run. Initial acquisition attempt failed at Git initialization with disk quota exceeded (exit 128); no data deleted. Retried on an alternate CPU node with adequate reported storage; acquisition exited 0. Independent manifest readback matched SHA-256 `72542ba7277661dbf2568310f66b68685f0f23c0d8e7ee7ad7a494ba2522dd12`. Private workspaces and identifiers omitted from this public record. No upstream hooks, installers, builds, or code executed.
+
+### S02 inventory (partial)
+- [x] Read existing research operations, experiment and Fleet authority documents. Preserve current baseline and exclusive resource leases.
+- [x] Identify existing ecosystem master work register: reuse it as the shared index; this plan is a subordinate feature checklist, not a new scheduler or task-claim authority.
+- [x] Inspect existing product-level research collector; reuse its bounded metadata/tree/README/licence collection pattern rather than create redundant collectors.
+- [x] Observe live Fleet device enumeration and worker preflight. Availability is not functional acceptance.
+- [ ] Reconcile deployed version and full job/approval/receipt schema, resolve task ownership and existing work-register linkage through reviewed change.
+- [ ] Normalize authority vocabulary carefully: physical-effect permission and a physical kill switch are distinct concepts; never map a kill-switch state to permission for remote action.
+
+### S03 upstream pin (partial)
+- [x] Select stable v1.4.5 from observed v1.4.x refs; annotated tag object `448b778d2605883621b2f10d131934c073ef9734`, peeled commit `6ba8beefff8d6408cadd62038e92d459093e33a8`. Main pyproject reports dev version; do not use it as release.
+- [x] Read pinned LICENSE (MIT; blob `28a50fa22639e32febe14e4ffc7a732b0ba8c90a`) and pinned pyproject (blob `902e4502ea45422f7067a52293d3cc735fa3d8a5`), confirming 1.4.5 and Python >=3.11. Direct dependencies declared: typer, click, rich, readchar, pyyaml, packaging, pathspec, json5, mcp, pydantic, lark; hatchling build backend. No root uv.lock in inspected tree.
+- [ ] Validate tag provenance/signature where available, resolve and audit transitive dependencies, inspect build/install scripts and upstream CI, run pinned CLI in clean restricted environment and record version/help/integration compatibility. No global installation.
+
+### S04 source acquisition (partial)
+- [x] Fetch exact commits into isolated no-checkout Git repositories; verify FETCH_HEAD against each pin, generate file-tree inventory and dependency/licence path list. 9/9 successful; manifest readback matches.
+- [x] Inspect candidate root licence evidence and tree paths. No permission to copy code inferred from README alone.
+- [ ] Review pinned licence contents, source, hooks, execution permissions, dependencies, vulnerabilities, tests and integration fit; record source audit and verdict per candidate. Execute tests only in suitable disposable restricted environment.
+
+| ID | Pinned commit | Tree files | Preliminary licence evidence / gate |
+|---|---|---:|---|
+| R01 | `6ba8beefff8d6408cadd62038e92d459093e33a8` | 1072 | MIT at pin; audit dependency graph and CLI |
+| R03 | `bcf40a963178688fd23c5246ca07df05a4fc0046` | 70 | No licence path found; BLOCKED for code reuse |
+| R04 | `d4f1168ba0ff127e4297cd8f9132d8bbd3bfe5d8` | 33 | MIT file read on default branch; pinned LICENSE/plugin.yaml/pyproject paths present; recheck pin |
+| R05 | `9f93558b473db9f70c8b53f1eb1bb7cb09d260b4` | 42 | MIT file read on default branch; pinned LICENSE, package-lock, requirements and pyproject present |
+| R06 | `b4c03efef373f8084b5fafc969402c6d7ac3efa6` | 220 | Apache-2.0 file read on default branch; pinned LICENSE, uv.lock, pyproject present |
+| R07 | `d48e79d9ebee0acb57781c38dbdaf1394ff654c3` | 34 | No licence path found; BLOCKED for code reuse |
+| R12 | `50bf01716982189898823e90586075f37cd9bb7d` | 202 | Apache-2.0 file read on default branch; pinned LICENSE and Go/JS/Python/Rust manifests present |
+| R13 | `fd42a8ca2855fe1fa50034133ecb10bdb88efdfd` | 478 | Apache-2.0 file read on default branch; pinned LICENSE, go.mod, go.sum present |
+| R14 | `cfb48139d7daeb69d739439eb55ccf694abfb637` | 451 | LGPL-2.1-or-later header observed on default branch; pinned COPYING/LICENSE/pyproject present; verify exact obligations |
+
+**Decision:** S02/S03/S04 remain open. The acquisition and version-selection subtasks are complete; full audit, dependency integrity and executable testing are not. Next: inspect pinned source in read-only mode, resolve licence gaps without copying, draft preset only after authority mapping; use a disposable build runner with no production credentials. Do not deploy to the gateway or hardware.
