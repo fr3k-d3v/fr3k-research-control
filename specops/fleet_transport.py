@@ -46,6 +46,7 @@ class FleetReadClient:
         self._seq = 0
         self._session = None
         self._protocol = None
+        self._initialized = False
 
     def _request(self, method, params, notification=False):
         self._seq += 1
@@ -93,6 +94,9 @@ class FleetReadClient:
         return body["result"]
 
     def initialize(self):
+        self._initialized=False
+        self._session=None
+        self._protocol=None
         result=self._request("initialize",{"protocolVersion":"2025-11-25","capabilities":{},
                       "clientInfo":{"name":"fr3k-specops-read","version":"0.1.0"}})
         info=result.get("serverInfo")
@@ -103,10 +107,11 @@ class FleetReadClient:
             raise TransportError("unsupported protocol")
         self._protocol=protocol
         self._request("notifications/initialized",{},notification=True)
+        self._initialized=True
         return {"server":info["name"],"protocol":protocol}
 
     def read(self, tool, job_id):
-        if not self._protocol:
+        if not self._initialized:
             raise TransportError("initialize first")
         if tool not in TOOLS or not isinstance(job_id,str) or not JOB.fullmatch(job_id):
             raise ValueError("unsupported tool or invalid job ID")
@@ -131,10 +136,10 @@ class Response:
     def read(self,n): return self.raw[:n]
 
 class Fixture:
-    def __init__(self): self.requests=[]; self.bad_id=False; self.bad_server=False
+    def __init__(self): self.requests=[]; self.bad_id=False; self.bad_server=False; self.reject_notification=False
     def open(self,req,timeout):
         body=json.loads(req.data); self.requests.append(body)
-        if "id" not in body: return Response({},202)
+        if "id" not in body: return Response({},400 if self.reject_notification else 202)
         if body["method"]=="initialize":
             result={"serverInfo":{"name":"other" if self.bad_server else "fr3k-fleet-mcp"},
                     "protocolVersion":"2025-11-25"}
@@ -167,6 +172,15 @@ class Tests(unittest.TestCase):
         self.fixture.bad_server=True
         with self.assertRaises(TransportError): self.client.initialize()
     def test_uninitialized(self):
+        with self.assertRaises(TransportError): self.client.read("fleet_jobs_status","a"*32)
+    def test_failed_initialization_blocks_read(self):
+        self.fixture.reject_notification=True
+        with self.assertRaises(TransportError): self.client.initialize()
+        with self.assertRaises(TransportError): self.client.read("fleet_jobs_status","a"*32)
+    def test_reinitialization_failure_blocks_read(self):
+        self.client.initialize()
+        self.fixture.bad_server=True
+        with self.assertRaises(TransportError): self.client.initialize()
         with self.assertRaises(TransportError): self.client.read("fleet_jobs_status","a"*32)
     def test_duplicate_json(self):
         with self.assertRaises(TransportError): json.loads('{"x":1,"x":2}',object_pairs_hook=unique_object)
