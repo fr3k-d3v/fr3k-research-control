@@ -10,6 +10,7 @@ Connect machines. Measure reality. Delegate work. Verify results.
 - [Fleet orchestration](docs/FLEET.md): delegated workers, leases, approvals and authority boundaries.
 - [Candidate ledger](ledger/CANDIDATES.md): latest leads, evidence tiers, negative findings and next actions.
 - [Live-state handoff](docs/HANDOFF.md): observed vs pending and how to refresh evidence.
+- [KINGPIN knowledge record](docs/kingpin/README.md): operating rules, infrastructure roles, workstream state, backlog and decisions log (verified 28 Nov 2026).
 
 This repository is the research coordination entrypoint, not a replacement for a future canonical `fr3kd3v/fr3k` monorepo. Never mirror private fleet configuration, tokens, local paths, raw user data, filesystem identifiers, hostnames or internal infrastructure.
 
